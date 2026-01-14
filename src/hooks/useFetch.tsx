@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import apiFetch from "../services/apiFetch";
 
 type FetchState<T> = {
   data: T | null,
@@ -13,4 +14,22 @@ export default function useFetch<T>(url: string) {
     loading: true,
     error: null,
   });
+
+  useEffect(() => {
+    setState(prev => ({ ...prev, loading: true, error: null }));
+
+    apiFetch<T>(url)
+      .then(data => {
+        setState({ data, loading: false, error: null })
+      })
+      .catch((e) => {
+        setState({
+          data: null,
+          loading: false,
+          error: e.message
+        });
+      });
+  }, [url])
+
+  return state;
 }
