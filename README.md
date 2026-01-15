@@ -1,10 +1,10 @@
-# Lightit Challenge - Patient Directory
+# Light-it Challenge - Patient Directory
 
 Small patient directory built with React, TypeScript, Vite, Tailwind CSS, and Zod. The UI focuses on reusable, composable components (cards and modals) and a predictable state flow for editing and adding patients.
 
 ## Highlights
 
-- Modular UI components (`PatientCard`, `PatientInfoModal`, `PatientEditModal`, `Modal`)
+- Modular UI components 
 - Type-safe data flow with TypeScript
 - Form validation with Zod
 - Tailwind CSS styling and custom modal animations
@@ -79,19 +79,8 @@ npm run lint
 
 ## Reusable Components
 
-- `Modal`: generic overlay + dialog shell with click-outside close and keyboard escape handling.
+- `Modal`: generic overlay and dialog shell with click-outside close and keyboard escape handling.
 - `ModalOverflow`: ensures proper scroll handling for long modal content.
 - `PatientCard`: concise patient summary with a consistent visual hierarchy.
 - `PatientInfoModal`: read-only modal designed to mirror the card layout.
 - `PatientEditModal`: edit modal that preserves the same layout, swapping text for inputs.
-
-## Tooling Notes
-
-- TypeScript enforces strict typing across components and props.
-- ESLint provides project-wide lint rules for consistent style and safer code changes.
-
-## Possible Next Steps
-
-- Add form-level error summary and inline validation states.
-- Add optimistic persistence (API update) with proper success/error feedback.
-- Add unit tests for patient schema validation and modal behaviors.

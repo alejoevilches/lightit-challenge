@@ -12,9 +12,9 @@ type PatientEditModalProps = {
 };
 
 export const patientSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  description: z.string().min(1, "Description is required"),
-  website: z.url("Website must be a valid URL"),
+  name: z.string().min(1, "Nombre no puede estar vacio"),
+  description: z.string().min(1, "Descripcion no puede estar vacia"),
+  website: z.url("Website tiene que ser una URL válida"),
 });
 
 export default function PatientEditModal({
@@ -45,6 +45,9 @@ export default function PatientEditModal({
   const handleSave = () => {
     const result = patientSchema.safeParse(formValues);
     if (!result.success) {
+      const message =
+        result.error.issues[0]?.message ?? "Hay errores en el formulario.";
+      toast.error(message);
       return;
     }
     onSave({
