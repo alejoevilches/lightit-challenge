@@ -1,73 +1,97 @@
-# React + TypeScript + Vite
+# Lightit Challenge - Patient Directory
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Small patient directory built with React, TypeScript, Vite, Tailwind CSS, and Zod. The UI focuses on reusable, composable components (cards and modals) and a predictable state flow for editing and adding patients.
 
-Currently, two official plugins are available:
+## Highlights
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Modular UI components (`PatientCard`, `PatientInfoModal`, `PatientEditModal`, `Modal`)
+- Type-safe data flow with TypeScript
+- Form validation with Zod
+- Tailwind CSS styling and custom modal animations
+- ESLint configured for consistent code quality
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19 + TypeScript
+- Vite 7
+- Tailwind CSS 4
+- Zod for schema validation
+- ESLint for linting
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+  components/
+    Modal.tsx
+    ModalOverflow.tsx
+    PatientCard.tsx
+    PatientInfoModal.tsx
+    PatientEditModal.tsx
+  hooks/
+    useFetch.ts
+  types/
+    Patient.ts
+  App.tsx
+  main.tsx
+  index.css
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Running Locally
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1) Install dependencies
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+2) Start the dev server
+
+```bash
+npm run dev
+```
+
+3) Build for production
+
+```bash
+npm run build
+```
+
+4) Preview the production build
+
+```bash
+npm run preview
+```
+
+5) Lint the project
+
+```bash
+npm run lint
+```
+
+## Design Decisions
+
+- **Composable modal system**: `Modal` provides the shell (overlay, layout, transitions), while `PatientInfoModal` and `PatientEditModal` focus on patient-specific UI. This keeps the modal reusable and easy to extend.
+- **Single source of truth**: The patients list lives in `App.tsx` and is updated through callbacks (`onUpdate`, `onSave`) to avoid duplicated state or stale data.
+- **Validation at the edge**: Zod schemas validate form values before saving, keeping the edit modal predictable and preventing invalid data from entering app state.
+- **Tailwind for rapid iteration**: Utility-first styling keeps styles co-located with markup and speeds up UI iteration without separate CSS files.
+- **Smooth modal UX**: Subtle open/close transitions improve perceived performance without heavy animation libraries.
+
+## Reusable Components
+
+- `Modal`: generic overlay + dialog shell with click-outside close and keyboard escape handling.
+- `ModalOverflow`: ensures proper scroll handling for long modal content.
+- `PatientCard`: concise patient summary with a consistent visual hierarchy.
+- `PatientInfoModal`: read-only modal designed to mirror the card layout.
+- `PatientEditModal`: edit modal that preserves the same layout, swapping text for inputs.
+
+## Tooling Notes
+
+- TypeScript enforces strict typing across components and props.
+- ESLint provides project-wide lint rules for consistent style and safer code changes.
+
+## Possible Next Steps
+
+- Add form-level error summary and inline validation states.
+- Add optimistic persistence (API update) with proper success/error feedback.
+- Add unit tests for patient schema validation and modal behaviors.

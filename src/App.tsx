@@ -41,7 +41,6 @@ export default function App() {
       },
     ]);
     setIsAddOpen(false);
-    toast("Paciente creado exitosamente");
   };
 
   if (loading) return "Loading" //Esto deberia ser un spinner
