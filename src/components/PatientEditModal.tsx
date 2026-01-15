@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Modal from "./Modal";
 import type { Patient } from "../types/Patient";
+import { z } from "zod";
 
 type PatientEditModalProps = {
   data: Patient;
@@ -9,18 +10,24 @@ type PatientEditModalProps = {
   onSave: (updated: Patient) => void;
 };
 
+export const patientSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  description: z.string().min(1, "Description is required"),
+  avatar: z.string().url("Avatar must be a valid URL"),
+  website: z.string().url("Website must be a valid URL").optional(),
+});
+
 export default function PatientEditModal({
   data,
   isOpen,
   onClose,
   onSave,
 }: PatientEditModalProps) {
-  const { name, avatar, description, createdAt, website } = data;
+  const { name, avatar, description, website } = data;
   const [formValues, setFormValues] = useState({
     name,
     avatar,
     description,
-    createdAt,
     website,
   });
 
@@ -30,30 +37,31 @@ export default function PatientEditModal({
         name,
         avatar,
         description,
-        createdAt,
         website,
       });
     }
-  }, [isOpen, name, avatar, description, createdAt, website]);
+  }, [isOpen, data]);
 
   const handleSave = () => {
+    const result = patientSchema.safeParse(formValues);
+    if (!result.success) {
+      return <p>{result.error.message}</p>
+    }
     onSave({
       ...data,
       ...formValues,
     });
+    onClose();
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="flex flex-col gap-4 text-slate-200">
         <header className="flex items-start gap-4">
-          <input
-            value={formValues.avatar}
-            onChange={(event) =>
-              setFormValues((prev) => ({ ...prev, avatar: event.target.value }))
-            }
-            className="h-10 w-full rounded-md border border-slate-700 bg-slate-900 px-3 text-sm text-slate-100 focus:border-sky-500 focus:outline-none"
-            placeholder="Avatar"
+          <img
+            src={avatar}
+            alt={`Avatar de ${name}`}
+            className="h-16 w-16 shrink-0 rounded-full border border-slate-600 object-cover"
           />
           <div className="flex-1">
             <input
@@ -61,16 +69,8 @@ export default function PatientEditModal({
               onChange={(event) =>
                 setFormValues((prev) => ({ ...prev, name: event.target.value }))
               }
-              className="mb-2 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 focus:border-sky-500 focus:outline-none"
+              className="mb-2 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-xl font-semibold text-slate-100 focus:border-sky-500 focus:outline-none"
               placeholder="Nombre"
-            />
-            <input
-              value={formValues.createdAt}
-              onChange={(event) =>
-                setFormValues((prev) => ({ ...prev, createdAt: event.target.value }))
-              }
-              className="w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-xs text-slate-100 focus:border-sky-500 focus:outline-none"
-              placeholder="Creado el"
             />
           </div>
         </header>
@@ -79,7 +79,7 @@ export default function PatientEditModal({
           onChange={(event) =>
             setFormValues((prev) => ({ ...prev, description: event.target.value }))
           }
-          className="min-h-[120px] w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 focus:border-sky-500 focus:outline-none"
+          className="min-h-30 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 focus:border-sky-500 focus:outline-none"
           placeholder="Descripcion"
         />
 
