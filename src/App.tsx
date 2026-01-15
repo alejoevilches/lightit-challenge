@@ -1,4 +1,5 @@
 import PatientCard from "./components/PatientCard";
+import PatientEditModal from "./components/PatientEditModal";
 import useFetch from "./hooks/useFetch"
 import type { Patient } from "./types/Patient";
 import { useEffect, useState } from "react";
@@ -6,10 +7,20 @@ import { useEffect, useState } from "react";
 export default function App() {
   const { data, loading, error } = useFetch<Patient[]>("https://63bedcf7f5cfc0949b634fc8.mockapi.io/users");
   const [patients, setPatients] = useState<Patient[]>([]);
+  const [isAddOpen, setIsAddOpen] = useState(false);
 
   useEffect(() => {
-    setPatients(data)
+    setPatients(data ?? [])
   }, [data]);
+
+  const emptyPatient: Patient = {
+    id: "",
+    name: "",
+    avatar: "",
+    description: "",
+    website: "",
+    createdAt: "",
+  };
 
   const handleUpdatePatient = (updated: Patient) => {
     setPatients((prev) =>
@@ -17,14 +28,28 @@ export default function App() {
     );
   };
 
-  if (loading) return "Loading"
+  const handleAddPatient = (updated: Patient) => {
+    const createdAt = updated.createdAt || new Date().toISOString();
+    console.log('created at', createdAt)
+    setPatients((prev) => [
+      ...(prev ?? []),
+      {
+        ...updated,
+        id: Date.now().toString(),
+        createdAt,
+      },
+    ]);
+    setIsAddOpen(false);
+  };
 
-  if (error) return "Error"
+  if (loading) return "Loading" //Esto deberia ser un spinner
+
+  if (error) return "Error" //Esto deberia ser un toast
 
   return (
     <section>
       <h1>Bienvenido a la pagina principal de pacientes</h1>
-      <div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-6">
         {patients?.map((patient) => {
           return (
             <PatientCard
@@ -35,6 +60,20 @@ export default function App() {
           )
         })}
       </div>
+      <button
+        type="button"
+        onClick={() => setIsAddOpen(true)}
+        className="fixed bottom-6 right-6 rounded-full bg-blue-950 px-5 py-3 text-sm font-semibold text-white 
+        shadow-lg transition hover:bg-blue-800"
+      >
+        Agregar paciente
+      </button>
+      <PatientEditModal
+        isOpen={isAddOpen}
+        onClose={() => setIsAddOpen(false)}
+        data={emptyPatient}
+        onSave={handleAddPatient}
+      />
     </section>
   )
 }

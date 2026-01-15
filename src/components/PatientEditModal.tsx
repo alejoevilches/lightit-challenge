@@ -13,8 +13,7 @@ type PatientEditModalProps = {
 export const patientSchema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().min(1, "Description is required"),
-  avatar: z.string().url("Avatar must be a valid URL"),
-  website: z.string().url("Website must be a valid URL").optional(),
+  website: z.url("Website must be a valid URL"),
 });
 
 export default function PatientEditModal({
@@ -45,7 +44,7 @@ export default function PatientEditModal({
   const handleSave = () => {
     const result = patientSchema.safeParse(formValues);
     if (!result.success) {
-      return <p>{result.error.message}</p>
+      return;
     }
     onSave({
       ...data,
