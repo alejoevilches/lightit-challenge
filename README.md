@@ -63,12 +63,6 @@ npm run build
 npm run preview
 ```
 
-5) Lint the project
-
-```bash
-npm run lint
-```
-
 ## Design Decisions
 
 - **Composable modal system**: `Modal` provides the shell (overlay, layout, transitions), while `PatientInfoModal` and `PatientEditModal` focus on patient-specific UI. This keeps the modal reusable and easy to extend.
