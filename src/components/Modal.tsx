@@ -22,15 +22,17 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen, onClose]);
-
   if (!isOpen) return null;
 
   return (
     <ModalOverflow>
-      <div className="flex min-h-full items-center justify-center" onMouseDown={onClose}>
+      <div
+        className="flex min-h-full items-center justify-center animate-[modal-fade_180ms_ease-out]"
+        onMouseDown={onClose}
+      >
         <div
           role="dialog"
-          className="w-full max-w-lg rounded-2xl border border-slate-700/60 bg-slate-900 p-6 text-slate-100 shadow-xl"
+          className="w-full max-w-lg rounded-2xl border border-slate-700/60 bg-slate-900 p-6 text-slate-100 shadow-xl animate-[modal-pop_220ms_ease-out]"
           onMouseDown={(event) => event.stopPropagation()}
         >
           <header className="mb-4 flex items-start justify-between gap-4">
