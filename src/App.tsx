@@ -43,9 +43,15 @@ export default function App() {
     setIsAddOpen(false);
   };
 
-  if (loading) return "Loading" //Esto deberia ser un spinner
+  if (loading) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-slate-950/60">
+        <span className="loader" aria-label="Cargando" />
+      </div>
+    );
+  }
 
-  if (error) return toast("Error al cargar los pacientes. Intenta nuevamente luego.")//Esto deberia ser un toast
+  if (error) return toast("Error al cargar los pacientes. Intenta nuevamente luego.")
 
   return (
     <section>
