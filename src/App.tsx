@@ -3,6 +3,7 @@ import PatientEditModal from "./components/PatientEditModal";
 import useFetch from "./hooks/useFetch"
 import type { Patient } from "./types/Patient";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function App() {
   const { data, loading, error } = useFetch<Patient[]>("https://63bedcf7f5cfc0949b634fc8.mockapi.io/users");
@@ -40,16 +41,16 @@ export default function App() {
       },
     ]);
     setIsAddOpen(false);
+    toast("Paciente creado exitosamente");
   };
 
   if (loading) return "Loading" //Esto deberia ser un spinner
 
-  if (error) return "Error" //Esto deberia ser un toast
+  if (error) return toast("Error al cargar los pacientes. Intenta nuevamente luego.")//Esto deberia ser un toast
 
   return (
     <section>
-      <h1>Bienvenido a la pagina principal de pacientes</h1>
-      <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4 pt-4 sm:px-6">
         {patients?.map((patient) => {
           return (
             <PatientCard

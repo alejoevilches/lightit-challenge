@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Modal from "./Modal";
 import type { Patient } from "../types/Patient";
 import { z } from "zod";
+import { toast } from "react-toastify";
 
 type PatientEditModalProps = {
   data: Patient;
@@ -51,6 +52,7 @@ export default function PatientEditModal({
       ...formValues,
     });
     onClose();
+    toast("Paciente modificado correctamente");
   };
 
   return (
