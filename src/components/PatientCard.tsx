@@ -1,20 +1,24 @@
 import { useState } from "react";
 import type { Patient } from "../types/Patient"
 import PatientInfoModal from "./PatientInfoModal";
+import PatientEditModal from "./PatientEditModal";
+
+type ModalMode = "info" | "edit" | null;
 
 type PatientCardProps = {
-  data: Patient
+  data: Patient;
+  onUpdate: (updated: Patient) => void;
 }
 
-export default function PatientCard({ data }: PatientCardProps) {
+export default function PatientCard({ data, onUpdate }: PatientCardProps) {
   const { name, avatar, description, createdAt } = data;
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<ModalMode>(null);
 
   return (
     <>
       <article
         className="group rounded-2xl border border-slate-700/60 bg-slate-900 p-6 shadow-sm transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-lg hover:border-sky-500/50"
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => setModalMode("info")}
       >
         <div className="flex items-start gap-5">
           <img
@@ -39,7 +43,23 @@ export default function PatientCard({ data }: PatientCardProps) {
           </div>
         </div>
       </article>
-      <PatientInfoModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} data={data} />
+      {modalMode == "info" &&
+        <PatientInfoModal
+          isOpen={modalMode === "info"}
+          onClose={() => setModalMode(null)}
+          onEdit={() => setModalMode("edit")}
+          data={data}
+        />
+      }
+      {modalMode == "edit" &&
+        <PatientEditModal
+          isOpen={modalMode === "edit"}
+          onClose={() => setModalMode(null)}
+          data={data}
+          onSave={onUpdate}
+        />
+      }
+
     </>
   );
 }

@@ -31,6 +31,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
         <div
           role="dialog"
           className="w-full max-w-lg rounded-2xl border border-slate-700/60 bg-slate-900 p-6 text-slate-100 shadow-xl"
+          onMouseDown={(event) => event.stopPropagation()}
         >
           <header className="mb-4 flex items-start justify-between gap-4">
             <button
