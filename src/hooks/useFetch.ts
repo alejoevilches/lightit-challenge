@@ -7,7 +7,6 @@ type FetchState<T> = {
   error: string | null
 };
 
-
 export default function useFetch<T>(url: string) {
   const [state, setState] = useState<FetchState<T>>({
     data: null,

@@ -73,7 +73,8 @@ export default function PatientEditModal({
               onChange={(event) =>
                 setFormValues((prev) => ({ ...prev, name: event.target.value }))
               }
-              className="mb-2 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-xl font-semibold text-slate-100 focus:border-sky-500 focus:outline-none"
+              className="mb-2 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-xl 
+              font-semibold text-slate-100 focus:border-sky-500 focus:outline-none"
               placeholder="Nombre"
             />
           </div>
@@ -83,7 +84,8 @@ export default function PatientEditModal({
           onChange={(event) =>
             setFormValues((prev) => ({ ...prev, description: event.target.value }))
           }
-          className="min-h-30 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 focus:border-sky-500 focus:outline-none"
+          className="min-h-30 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm
+          text-slate-100 focus:border-sky-500 focus:outline-none"
           placeholder="Descripcion"
         />
 
@@ -94,7 +96,8 @@ export default function PatientEditModal({
             onChange={(event) =>
               setFormValues((prev) => ({ ...prev, website: event.target.value }))
             }
-            className="mt-2 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 focus:border-sky-500 focus:outline-none"
+            className="mt-2 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm 
+            text-slate-100 focus:border-sky-500 focus:outline-none"
             placeholder="Website"
           />
         </div>
@@ -103,7 +106,8 @@ export default function PatientEditModal({
           <button
             type="button"
             onClick={handleSave}
-            className="rounded-md bg-sky-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-sky-400"
+            className="rounded-md bg-sky-500 px-4 py-2 text-sm font-semibold text-slate-950 transition 
+            hover:bg-sky-400"
           >
             Guardar
           </button>

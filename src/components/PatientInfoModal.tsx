@@ -56,7 +56,8 @@ export default function PatientInfoModal({
           <button
             type="button"
             onClick={onEdit}
-            className="rounded-md border border-slate-700 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-sky-500/70 hover:text-sky-200"
+            className="rounded-md border border-slate-700 px-4 py-2 text-sm font-semibold text-slate-200 transition
+             hover:border-sky-500/70 hover:text-sky-200"
           >
             Editar
           </button>
